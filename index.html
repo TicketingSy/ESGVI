@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>IT Support Portal</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      background:#f4f6f9;
+      font-family:Arial,sans-serif;
+      color:#1f2937;
+      overflow-x:hidden;
+    }
+
+    a{
+      text-decoration:none;
+    }
+
+    /* MOBILE HEADER */
+
+    .mobile-header{
+      display:none;
+      align-items:center;
+      justify-content:space-between;
+      padding:14px 18px;
+      background:#fff;
+      border-bottom:1px solid #e5e7eb;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      z-index:1200;
+    }
+
+    .mobile-logo{
+      width:130px;
+      object-fit:contain;
+    }
+
+    .menu-toggle{
+      border:none;
+      background:#198754;
+      color:#fff;
+      width:45px;
+      height:45px;
+      border-radius:14px;
+      font-size:24px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+      width:260px;
+      height:100vh;
+      background:#fff;
+      border-right:1px solid #e5e7eb;
+
+      position:fixed;
+      top:0;
+      left:0;
+
+      padding:10px 20px 20px;
+      z-index:1100;
+
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+
+      transition:.3s ease;
+    }
+
+    .sidebar-top{
+      display:flex;
+      flex-direction:column;
+    }
+
+    .logo-wrapper{
+      text-align:center;
+      margin-bottom:18px;
+    }
+
+    .company-logo{
+      width:170px;
+      object-fit:contain;
+    }
+
+    .menu-title{
+      font-size:12px;
+      color:#9ca3af;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      margin-bottom:14px;
+      padding-left:12px;
+      font-weight:700;
+    }
+
+    .menu-link{
+      display:flex;
+      align-items:center;
+      gap:14px;
+
+      color:#4b5563;
+
+      padding:14px 16px;
+      border-radius:18px;
+
+      font-weight:600;
+
+      transition:.25s ease;
+      margin-bottom:10px;
+    }
+
+    .menu-link i{
+      font-size:20px;
+    }
+
+    .menu-link:hover{
+      background:#f3f4f6;
+      color:#198754;
+      transform:translateX(3px);
+    }
+
+    .menu-active{
+      background:linear-gradient(135deg,#198754,#157347);
+      color:#fff !important;
+      box-shadow:0 10px 25px rgba(25,135,84,.18);
+    }
+
+    .sidebar-bottom{
+      margin-top:5px;
+    }
+
+    /* MAIN CONTENT */
+
+    .main-content{
+      margin-left:260px;
+      min-height:100vh;
+      transition:.3s ease;
+    }
+
+    /* TOPBAR */
+
+    .topbar{
+      background:#fff;
+      border-bottom:1px solid #e5e7eb;
+      padding:22px 40px;
+    }
+
+    .welcome-text small{
+      color:#6b7280;
+      font-size:14px;
+    }
+
+    .profile-box{
+      background:#f8fafc;
+      border:1px solid #e5e7eb;
+      padding:10px 16px;
+      border-radius:18px;
+    }
+
+    /* HERO */
+
+    .hero{
+      background:linear-gradient(135deg,#198754,#dc3545);
+      border-radius:32px;
+      padding:60px;
+      color:#fff;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:'';
+      position:absolute;
+      width:280px;
+      height:280px;
+      background:rgba(255,255,255,.08);
+      border-radius:50%;
+      top:-80px;
+      right:-70px;
+    }
+
+    .hero::after{
+      content:'';
+      position:absolute;
+      width:180px;
+      height:180px;
+      background:rgba(255,255,255,.06);
+      border-radius:50%;
+      bottom:-60px;
+      left:-40px;
+    }
+
+    .hero h1{
+      font-size:48px;
+      font-weight:800;
+      margin-bottom:15px;
+      position:relative;
+      z-index:2;
+    }
+
+    .hero p{
+      font-size:18px;
+      max-width:650px;
+      opacity:.95;
+      position:relative;
+      z-index:2;
+    }
+
+    .hero-btn{
+      margin-top:30px;
+      background:#fff;
+      color:#198754;
+      border:none;
+
+      padding:15px 28px;
+      border-radius:16px;
+
+      font-weight:700;
+
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+
+      transition:.25s ease;
+      position:relative;
+      z-index:2;
+    }
+
+    .hero-btn:hover{
+      transform:translateY(-3px);
+      color:#198754;
+    }
+
+    /* SECTIONS */
+
+    .section-title{
+      font-size:28px;
+      font-weight:800;
+      margin-bottom:10px;
+    }
+
+    .section-subtitle{
+      color:#6b7280;
+      margin-bottom:35px;
+    }
+
+    /* CARDS */
+
+    .ticket-card{
+      background:#fff;
+      border:none;
+      border-radius:28px;
+      padding:35px;
+      transition:.3s ease;
+      height:100%;
+      box-shadow:0 10px 30px rgba(0,0,0,.05);
+    }
+
+    .ticket-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 18px 40px rgba(0,0,0,.08);
+    }
+
+    .icon-box{
+      width:72px;
+      height:72px;
+      border-radius:22px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      font-size:30px;
+    }
+
+    /* QUICK BOX */
+
+    .quick-box{
+      background:#fff;
+      border-radius:24px;
+      padding:28px;
+      height:100%;
+      box-shadow:0 10px 25px rgba(0,0,0,.04);
+    }
+
+    .quick-item{
+      display:flex;
+      align-items:center;
+      gap:16px;
+
+      padding:16px;
+      border-radius:18px;
+
+      background:#f9fafb;
+      margin-bottom:14px;
+
+      transition:.25s ease;
+    }
+
+    .quick-item:hover{
+      background:#eefbf4;
+      transform:translateX(4px);
+    }
+
+    .quick-icon{
+      width:50px;
+      height:50px;
+      border-radius:14px;
+
+      background:#d1f7e3;
+      color:#198754;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      font-size:22px;
+    }
+
+    .footer-note{
+      color:#9ca3af;
+      font-size:13px;
+      margin-top:20px;
+      text-align:center;
+    }
+
+    /* TABLET */
+
+    @media(max-width:991px){
+
+      .mobile-header{
+        display:flex;
+      }
+
+      .sidebar{
+        left:-100%;
+        width:280px;
+        box-shadow:0 10px 30px rgba(0,0,0,.15);
+      }
+
+      .sidebar.show{
+        left:0;
+      }
+
+      .main-content{
+        margin-left:0;
+        padding-top:80px;
+      }
+
+      .topbar{
+        padding:20px;
+      }
+
+      .hero{
+        padding:35px 25px;
+        border-radius:24px;
+      }
+
+      .hero h1{
+        font-size:32px;
+      }
+
+      .hero p{
+        font-size:16px;
+      }
+
+      .ticket-card{
+        padding:25px;
+      }
+
+    }
+
+    /* MOBILE */
+
+    @media(max-width:576px){
+
+      .topbar{
+        flex-direction:column;
+        gap:15px;
+        align-items:flex-start !important;
+      }
+
+      .profile-box{
+        width:100%;
+        justify-content:flex-start;
+      }
+
+      .hero h1{
+        font-size:28px;
+      }
+
+      .hero-btn{
+        width:100%;
+        justify-content:center;
+      }
+
+      .company-logo{
+        width:150px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <!-- MOBILE HEADER -->
+
+  <div class="mobile-header d-lg-none">
+
+    <button class="menu-toggle" id="menuToggle">
+      <i class="bi bi-list"></i>
+    </button>
+
+    <img
+      src="img/logo.png"
+      class="mobile-logo"
+      alt="Logo"
+    >
+
+  </div>
+
+  <!-- SIDEBAR -->
+
+  <div class="sidebar" id="sidebarMenu">
+
+    <div class="sidebar-top">
+
+      <div class="logo-wrapper">
+
+        <img
+          src="img/logo.png"
+          class="company-logo"
+          alt="Company Logo"
+        >
+
+      </div>
+
+      <div class="menu-title">
+        Main Menu
+      </div>
+
+      <a href="#" class="menu-link menu-active">
+        <i class="bi bi-house-door-fill"></i>
+        <span>Home</span>
+      </a>
+
+      <a href="#create-ticket" class="menu-link">
+        <i class="bi bi-ticket-detailed-fill"></i>
+        <span>Create Ticket</span>
+      </a>
+
+      <a href="#" class="menu-link">
+        <i class="bi bi-book-half"></i>
+        <span>User Guide</span>
+      </a>
+
+      <a href="#" class="menu-link">
+        <i class="bi bi-headset"></i>
+        <span>Support Help</span>
+      </a>
+
+    </div>
+
+    <div class="sidebar-bottom">
+
+      <div class="quick-box">
+
+        <h5 class="fw-bold mb-3">
+          Need Assistance?
+        </h5>
+
+        <p class="text-muted small mb-0">
+          Contact the IT Support team for technical concerns and troubleshooting.
+        </p>
+
+      </div>
+
+      <div class="footer-note">
+        IT Support Portal © 2026
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MAIN CONTENT -->
+
+  <div class="main-content">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar d-flex justify-content-between align-items-center">
+
+      <div class="welcome-text">
+
+        <h4 class="fw-bold mb-1">
+          IT Support Dashboard
+        </h4>
+
+        <small>
+          Welcome to the employee support portal.
+        </small>
+
+      </div>
+
+      <div class="profile-box d-flex align-items-center gap-3">
+
+        <img
+          src="https://i.pravatar.cc/45"
+          class="rounded-circle"
+          alt="User"
+        >
+
+        <div>
+
+          <div class="fw-semibold">
+            IT Admin
+          </div>
+
+          <small class="text-muted">
+            Administrator
+          </small>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CONTENT -->
+
+    <div class="container-fluid p-4 p-lg-5">
+
+      <!-- HERO -->
+
+      <div class="hero shadow-sm mb-5">
+
+        <h1>
+          Fast & Reliable IT Support
+        </h1>
+
+        <p>
+          Submit technical concerns, report issues, and request assistance through the centralized IT Support Portal.
+        </p>
+
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLScOpnjtS-dSSPxWk6qvaEMnsLCvSsf_MKZdsMsvRx3lH-4zGA/viewform?usp=publish-editor"
+          class="hero-btn"
+        >
+
+          <i class="bi bi-plus-circle-fill"></i>
+          Create New Ticket
+
+        </a>
+
+      </div>
+
+      <!-- SECTION -->
+
+      <div class="mb-4">
+
+        <div class="section-title">
+          Create Support Ticket
+        </div>
+
+        <div class="section-subtitle">
+          Select the service you need assistance with.
+        </div>
+
+      </div>
+
+      <!-- CARDS -->
+
+      <div class="row g-4 mb-4" id="create-ticket">
+
+        <div class="col-lg-4">
+
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLScOpnjtS-dSSPxWk6qvaEMnsLCvSsf_MKZdsMsvRx3lH-4zGA/viewform?usp=publish-editor"
+          >
+
+            <div class="ticket-card">
+
+              <div class="icon-box bg-success bg-opacity-10 text-success">
+                <i class="bi bi-laptop"></i>
+              </div>
+
+              <h4 class="fw-bold mt-4 text-dark">
+                General IT Concern
+              </h4>
+
+              <p class="text-muted mt-3 mb-4">
+                Report system issues, software problems, account access concerns, and technical requests.
+              </p>
+
+              <div class="fw-semibold text-success">
+                Submit Ticket →
+              </div>
+
+            </div>
+
+          </a>
+
+        </div>
+
+        <div class="col-lg-4">
+
+          <div class="ticket-card">
+
+            <div class="icon-box bg-danger bg-opacity-10 text-danger">
+              <i class="bi bi-wifi"></i>
+            </div>
+
+            <h4 class="fw-bold mt-4">
+              Network & Internet
+            </h4>
+
+            <p class="text-muted mt-3 mb-4">
+              Request assistance for internet connectivity, VPN access, and network troubleshooting.
+            </p>
+
+            <div class="fw-semibold text-danger">
+              Network Support
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-lg-4">
+
+          <div class="ticket-card">
+
+            <div class="icon-box bg-primary bg-opacity-10 text-primary">
+              <i class="bi bi-printer"></i>
+            </div>
+
+            <h4 class="fw-bold mt-4">
+              Printer & Devices
+            </h4>
+
+            <p class="text-muted mt-3 mb-4">
+              Setup printers, troubleshoot peripherals, and request hardware assistance.
+            </p>
+
+            <div class="fw-semibold text-primary">
+              Device Assistance
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- QUICK HELP -->
+
+      <div class="row g-4 mt-1">
+
+        <div class="col-lg-6">
+
+          <div class="quick-box h-100">
+
+            <h4 class="fw-bold mb-4">
+              Quick Help Topics
+            </h4>
+
+            <div class="quick-item">
+
+              <div class="quick-icon">
+                <i class="bi bi-key"></i>
+              </div>
+
+              <div>
+
+                <div class="fw-semibold">
+                  Password Reset
+                </div>
+
+                <small class="text-muted">
+                  Reset locked or expired accounts.
+                </small>
+
+              </div>
+
+            </div>
+
+            <div class="quick-item">
+
+              <div class="quick-icon">
+                <i class="bi bi-printer"></i>
+              </div>
+
+              <div>
+
+                <div class="fw-semibold">
+                  Printer Setup
+                </div>
+
+                <small class="text-muted">
+                  Configure office printers and scanners.
+                </small>
+
+              </div>
+
+            </div>
+
+            <div class="quick-item mb-0">
+
+              <div class="quick-icon">
+                <i class="bi bi-shield-lock"></i>
+              </div>
+
+              <div>
+
+                <div class="fw-semibold">
+                  VPN Access
+                </div>
+
+                <small class="text-muted">
+                  Remote work and secure connection setup.
+                </small>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+          <div class="quick-box h-100 d-flex flex-column justify-content-center">
+
+            <div class="text-center">
+
+              <div class="icon-box bg-success bg-opacity-10 text-success mx-auto mb-4">
+                <i class="bi bi-headset"></i>
+              </div>
+
+              <h3 class="fw-bold mb-3">
+                IT Support Available
+              </h3>
+
+              <p class="text-muted mb-4">
+                The support team is ready to assist employees with technical concerns and troubleshooting.
+              </p>
+
+              <button class="btn btn-success rounded-4 px-4 py-3 fw-semibold">
+                Contact Support
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- BOOTSTRAP -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- SIDEBAR TOGGLE -->
+
+  <script>
+
+    const menuToggle = document.getElementById("menuToggle");
+    const sidebar = document.getElementById("sidebarMenu");
+
+    menuToggle.addEventListener("click", () => {
+      sidebar.classList.toggle("show");
+    });
+
+  </script>
+
+</body>
+</html>
